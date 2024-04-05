@@ -21,7 +21,6 @@ func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Printf("Created: %v\n", i)
 
 	_, err = w.Write([]byte("Item:" + strconv.Itoa(i.ID) + " created"))
 	if err != nil {
@@ -31,7 +30,6 @@ func (h *ItemHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (h *ItemHandler) GetById(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
-	log.Println("Received request for item:" + id)
 	_, err := w.Write([]byte("Item:" + id + " requested"))
 	if err != nil {
 		log.Fatalln(err)
