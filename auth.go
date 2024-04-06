@@ -20,11 +20,13 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		encodedToken := strings.TrimPrefix(authorization, "Bearer ")
 
 		// Decode the token from base 64
-		_, err := base64.StdEncoding.DecodeString(encodedToken)
+		token, err := base64.StdEncoding.DecodeString(encodedToken)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
+
+		w.Header().Add("User", string(token))
 
 		// We're just assuming a valid base64 token is a valid user id.
 		//userID := string(token)

@@ -27,6 +27,11 @@ func LogMiddleware(next http.Handler) http.Handler {
 
 		next.ServeHTTP(wrapped, r)
 
-		log.Println(wrapped.statusCode, r.Method, r.URL.Path, time.Since(start))
+		addInfo := "["
+		if len(wrapped.Header().Get("User")) > 0 {
+			addInfo += "user:" + wrapped.Header().Get("User") + ", "
+		}
+
+		log.Println(wrapped.statusCode, r.Method, r.URL.Path, addInfo[:len(addInfo)-2]+"]", time.Since(start))
 	})
 }
